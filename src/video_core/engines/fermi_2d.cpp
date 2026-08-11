@@ -64,9 +64,13 @@ void Fermi2D::Blit() {
     UNIMPLEMENTED_IF_MSG(regs.operation != Operation::SrcCopy, "Operation is not copy");
     UNIMPLEMENTED_IF_MSG(regs.src.layer != 0, "Source layer is not zero");
     UNIMPLEMENTED_IF_MSG(regs.dst.layer != 0, "Destination layer is not zero");
-    UNIMPLEMENTED_IF_MSG(regs.src.depth != 1, "Source depth is not one");
-    UNIMPLEMENTED_IF_MSG(regs.clip_enable != 0, "Clipped blit enabled");
 
+    if (regs.src.depth != 1) {
+        LOG_WARNING(HW_GPU, "Source depth is not one: {}", regs.src.depth);
+    }
+
+    UNIMPLEMENTED_IF_MSG(regs.clip_enable != 0, "Clipped blit enabled");
+    
     const auto& args = regs.pixels_from_memory;
     constexpr s64 null_derivative = 1ULL << 32;
     Surface src = regs.src;
