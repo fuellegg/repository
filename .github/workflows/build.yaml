@@ -1,18 +1,23 @@
-```yaml
 name: Build Eden
-
-on: [push, pull_request]
-
+"on":
+  push:
+  pull_request:
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Ninja
+        uses: seanmiddleditch/gha-setup-ninja@master
+
+      - name: Setup MSVC environment
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure
-        run: cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release
+        run: cmake -B build -S . -G Ninja -DCMAKE_BUILD_TYPE=Release -DYUZU_USE_BUNDLED_VCPKG=ON -DYUZU_TESTS=OFF
 
       - name: Build
         run: cmake --build build --parallel
-```
