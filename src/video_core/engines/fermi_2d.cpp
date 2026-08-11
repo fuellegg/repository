@@ -75,6 +75,11 @@ void Fermi2D::Blit() {
     constexpr s64 null_derivative = 1ULL << 32;
     Surface src = regs.src;
     const auto bytes_per_pixel = BytesPerBlock(PixelFormatFromRenderTargetFormat(src.format));
+
+    if (bytes_per_pixel == 0) {
+        LOG_ERROR(HW_GPU, "Bypassed invalid pixel format to prevent divide-by-zero!");
+        return;
+    }
     const bool delegate_to_gpu = src.width > 512 && src.height > 512 && bytes_per_pixel <= 8 &&
                                  src.format != regs.dst.format;
 
