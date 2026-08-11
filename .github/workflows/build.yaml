@@ -28,3 +28,11 @@ jobs:
 
       - name: Build
         run: cmake --build build --parallel
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: eden-windows-build
+          path: |
+            build/bin/**
+            !build/bin/**/*.pdb
