@@ -15,7 +15,7 @@ jobs:
         with:
           vulkan-query-version: latest
           vulkan-components: Vulkan-Headers, Vulkan-Loader, Glslang
-          vulkan-use-cache: true
+          vulkan-use-cache: false
 
       - name: Install Ninja
         uses: seanmiddleditch/gha-setup-ninja@master
